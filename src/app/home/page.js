@@ -1,0 +1,18 @@
+import Navbar from '@/Components/Home/Navbar'
+import Hero from '@/Components/Home/Hero'
+import Features from '@/Components/Home/Features'
+import Footer from '@/Components/Home/Footer'
+import React from 'react'
+
+const page = () => {
+  return (
+    <div className='flex flex-col min-h-screen gap-y-6'>
+        <Navbar/>
+        <Hero/>
+        <Features/>
+        <Footer/>
+    </div>
+  )
+}
+
+export default page

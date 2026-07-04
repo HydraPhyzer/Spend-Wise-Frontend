@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-green: #2ecc71;
+  --color-red: #e74c3c;
+  --color-yellow: #f1c40f;
+  --color-gray: #d1d5dc;
+  --color-orange: #f39c12;
+  --color-purple: #8e44ad;
+  --color-blue: #3498db;
+  --color-dark:#2c3e50;
+}
+
+:root {
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+  --font-poppins: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--font-geist-mono);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Slide from top animation */
+@keyframes slideFromTop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-from-top {
+  animation: slideFromTop 2s ease-out forwards;
+}
+
+.ScrollSetting{
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  overflow-x: scroll;
+}
+.ScrollSetting::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeInUp 0.6s ease forwards;
+}
