@@ -28,11 +28,35 @@ const SignUp = () => {
     }));
   };
 
+  const validateName = (name) => {
+    const nameRegex = /^[A-Z][a-zA-Z ]+$/;
+    if (!nameRegex.test(name.trim())) {
+      return "Name Should Start with Capital Letter and Contain only Letters & Spaces.";
+    }
+    return "";
+  };
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return "Please Enter a Valid Email Address";
+    }
+    return "";
+  };
+
   let signUpUserAccount = () => {
     const { fullName, emailAddress, password, gender } = userSignUpData;
-
     if (!fullName || !emailAddress || !password || !gender) {
-      toast.error("All fields are required");
+      toast.error("All Fields are Required");
+      return;
+    }
+    const nameError = validateName(fullName);
+    if (nameError) {
+      toast.error(nameError);
+      return;
+    }
+    const emailError = validateEmail(emailAddress);
+    if (emailError) {
+      toast.error(emailError);
       return;
     }
 

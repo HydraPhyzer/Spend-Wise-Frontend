@@ -12,6 +12,8 @@ import { IoHandRightSharp } from "react-icons/io5";
 const ViewReports = ({ categoriesData }) => {
   let authToken = useSelector((state) => state.loginStatus.token);
   let emailAddress = useSelector((state) => state.loginStatus.emailAddress);
+  let uuid = useSelector((state) => state.loginStatus.uuid);
+
   const [deleteId, setDeleteId] = useState(null);
   let screenType = useScreenType();
 
@@ -25,6 +27,8 @@ const ViewReports = ({ categoriesData }) => {
     expense_description: "",
   };
   let searchQueryParam = {
+    emailAddress: emailAddress,
+    UUID: uuid,
     searchContent: "",
     searchCategory: "",
     dateFilter: "",
@@ -67,7 +71,7 @@ const ViewReports = ({ categoriesData }) => {
 
   const deleteReport = (expense_id) => {
     toast.promise(
-      API.delete(`/expenses/delete-Expense/${emailAddress}/${expense_id}`, {
+      API.delete(`/expenses/delete-Expense/${emailAddress}/${uuid}/${expense_id}`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
           "Content-Type": "application/json",

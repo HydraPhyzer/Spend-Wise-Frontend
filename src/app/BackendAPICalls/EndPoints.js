@@ -56,10 +56,10 @@ export const checkTokenValidity = (token, router) => async (dispatch) => {
   }
 };
 
-export const getMonthlyIncomingOutgoingStats = async (token, emailAddress) => {
+export const getMonthlyIncomingOutgoingStats = async (token, emailAddress, uuid) => {
   try {
     const response = await API.get(
-      `expenses/get-FlowtypeWiseExpenseAmountMapper?emailAddress=${emailAddress}`,
+      `expenses/get-FlowtypeWiseExpenseAmountMapper?emailAddress=${emailAddress}&UUID=${uuid}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -74,10 +74,10 @@ export const getMonthlyIncomingOutgoingStats = async (token, emailAddress) => {
   }
 };
 
-export const getMonthlyIncomingOutgoingStatsForYear = async (token, emailAddress) => {
+export const getMonthlyIncomingOutgoingStatsForYear = async (token, emailAddress, uuid) => {
   try {
     const response = await API.get(
-      `expenses/get-getEachMonthIncomingAndOutgoing?emailAddress=${emailAddress}`,
+      `expenses/get-getEachMonthIncomingAndOutgoing?emailAddress=${emailAddress}&UUID=${uuid}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,10 +91,10 @@ export const getMonthlyIncomingOutgoingStatsForYear = async (token, emailAddress
     return [];
   }
 };
-export const getYearlySpendingsOnDiffCategories = async (token, emailAddress) => {
+export const getYearlySpendingsOnDiffCategories = async (token, emailAddress, uuid) => {
   try {
     const response = await API.get(
-      `expenses/get-getYearlySpendingsOnDiffCategories?emailAddress=${emailAddress}`,
+      `expenses/get-getYearlySpendingsOnDiffCategories?emailAddress=${emailAddress}&UUID=${uuid}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

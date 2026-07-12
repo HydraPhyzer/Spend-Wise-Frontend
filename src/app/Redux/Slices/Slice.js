@@ -23,6 +23,7 @@ const loginStatusSlice = createSlice({
     emailAddress: null,
     gender: null,
     token: null,
+    uuid: null,
   },
   reducers: {
     updateLoginStatus: (state, action) => {
@@ -31,6 +32,7 @@ const loginStatusSlice = createSlice({
       state.emailAddress = action.payload.emailAddress;
       state.gender = action.payload.gender;
       state.token = action.payload.token;
+      state.uuid = action.payload.uuid;
     },
     updateLogoutStatus: (state) => {
       state.loginResult = false;
@@ -39,6 +41,7 @@ const loginStatusSlice = createSlice({
       state.emailAddress = null;
       state.gender = null;
       state.token = null;
+      state.uuid = null;
     }
   },
 });

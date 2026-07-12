@@ -7,9 +7,11 @@ import toast from "react-hot-toast";
 
 const AddExpense = ({ categoriesData, setShowAddExpense }) => {
   let userEmail = useSelector((state) => state.loginStatus.emailAddress);
+  let uuid = useSelector((state) => state.loginStatus.uuid);
   let token = useSelector((state) => state.loginStatus.token);
   const formData = {
     emailAddress: userEmail,
+    UUID: uuid,
     expense_name: "",
     expense_description: "",
     expense_amount: "",

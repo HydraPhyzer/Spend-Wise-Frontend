@@ -11,12 +11,13 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
   const userName = useSelector((state) => state.loginStatus.fullName);
   const userEmail = useSelector((state) => state.loginStatus.emailAddress);
+  const uuid = useSelector((state) => state.loginStatus.uuid);
   const token = useSelector((state) => state.loginStatus.token);
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const getMonthlyIncomingOutgoingStatsData = async () => {
-    const data = await getMonthlyIncomingOutgoingStats(token, userEmail);
+    const data = await getMonthlyIncomingOutgoingStats(token, userEmail, uuid);
     data.forEach((item) => {
       if (item.Incoming) {
         setTotalIncomigs(item.Incoming);

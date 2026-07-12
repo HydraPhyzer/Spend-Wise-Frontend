@@ -13,10 +13,11 @@ const Summary = () => {
   let [categoriesSpenings, setCategoriesSpenings] = useState([]);
 
   const userEmail = useSelector((state) => state.loginStatus.emailAddress);
+  const uuid = useSelector((state) => state.loginStatus.uuid);
   const token = useSelector((state) => state.loginStatus.token);
 
   const getMonthlyIncomingOutgoingStatsForYearMethod = async () => {
-    const data = await getMonthlyIncomingOutgoingStatsForYear(token, userEmail);
+    const data = await getMonthlyIncomingOutgoingStatsForYear(token, userEmail, uuid);
     const yearlyData = data[0];
 
     const months = Object.keys(yearlyData);
@@ -28,7 +29,7 @@ const Summary = () => {
     setOutgoingsData(outgoings);
   };
   const getYearlySpendingsOnDiffCategoriesMethod = async () => {
-    const data = await getYearlySpendingsOnDiffCategories(token, userEmail);
+    const data = await getYearlySpendingsOnDiffCategories(token, userEmail, uuid);
 
     let catArray=[];
     let catSpendArray=[];
