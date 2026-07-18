@@ -1,29 +1,11 @@
-"use client";
-import { useEffect } from "react";
-import Navbar from "@/Components/Home/Navbar";
-import DashboardNestedNavbar from "@/Components/DashboardComponents/DashboardNestedNavbar";
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { checkTokenValidity } from "../BackendAPICalls/EndPoints";
-import { useRouter } from "next/navigation";
+import DashboardClient from "./DashBoardClient";
 
-const Dashboard = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { token } = useSelector((state) => state.loginStatus);
-
-  useEffect(() => {
-    dispatch(checkTokenValidity(token, router));
-  }, []);
-
-  return (
-    <div>
-      <Navbar />
-      <section className="md:mx-6 mx-4 md:my-6 my-4">
-        <DashboardNestedNavbar/>
-      </section>
-    </div>
-  );
+export const metadata = {
+  title: "Dashboard",
+  description:
+    "View your financial summary including balance, income, expenses, charts and recent transactions.",
 };
 
-export default Dashboard;
+export default function DashboardPage() {
+  return <DashboardClient />;
+}

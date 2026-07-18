@@ -1,8 +1,8 @@
-# 💳 SpendWise
+# 💳 Spend-Wise
 
-**SpendWise** is a modern personal funds management web application built with **Next.js** that helps users track their **income, expenses, transfers, and spending habits** with clean analytics and a minimal, intuitive UI.
+**Spend-Wise** is a modern personal funds management web application built with **Next.js** that helps users track their **income, expenses, transfers, and spending habits** with clean analytics and a minimal, intuitive UI.
 
-The goal of SpendWise is simple:
+The goal of Spend-Wise is simple:
 
 > **Give you complete clarity on where your money comes from and where it goes.**
 
@@ -186,4 +186,4 @@ This project is for personal and educational use.
 
 ## ✨ Spend Smart. Live Wise.
 
-**SpendWise** helps you stay in control of your finances with confidence and clarity.
+**Spend-Wise** helps you stay in control of your finances with confidence and clarity.

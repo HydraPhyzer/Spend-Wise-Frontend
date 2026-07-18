@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="flex items-center md:gap-x-3 gap-x-1">
             <Image
               src="/Logo/spend-wise-logo.png"
-              alt="SpendWise Logo"
+              alt="Spend-Wise Logo"
               width={50}
               height={50}
             />
