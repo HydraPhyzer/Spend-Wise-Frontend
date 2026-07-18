@@ -6,8 +6,9 @@ import API from "@/app/Libs/Axios/Axios";
 import toast from "react-hot-toast";
 
 const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
-  let [totalIncomings, setTotalIncomigs] = useState(0);
-  let [totalOutgoings, setTotalOutgoings] = useState(0);
+  const [totalIncomings, setTotalIncomigs] = useState(null);
+  const [totalOutgoings, setTotalOutgoings] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const userName = useSelector((state) => state.loginStatus.fullName);
   const userEmail = useSelector((state) => state.loginStatus.emailAddress);
@@ -17,15 +18,28 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const getMonthlyIncomingOutgoingStatsData = async () => {
-    const data = await getMonthlyIncomingOutgoingStats(token, userEmail, uuid);
-    data.forEach((item) => {
-      if (item.Incoming) {
-        setTotalIncomigs(item.Incoming);
-      }
-      if (item.Outgoing) {
-        setTotalOutgoings(item.Outgoing);
-      }
-    });
+    try {
+      setLoading(true);
+
+      const data = await getMonthlyIncomingOutgoingStats(
+        token,
+        userEmail,
+        uuid,
+      );
+
+      let incoming = 0;
+      let outgoing = 0;
+
+      data.forEach((item) => {
+        if (item.Incoming !== undefined) incoming = item.Incoming;
+        if (item.Outgoing !== undefined) outgoing = item.Outgoing;
+      });
+
+      setTotalIncomigs(incoming);
+      setTotalOutgoings(outgoing);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const removeMyAllExpenses = () => {
@@ -96,14 +110,22 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
         <div className="text-left bg-white border-2 border-black w-full p-2 rounded-md">
           <p>Total Incomings (Month)</p>
           <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-green">
-            {totalIncomings}
+            {loading ? (
+              <span className="animate-pulse">...</span>
+            ) : (
+              totalIncomings
+            )}
           </h1>
         </div>
 
         <div className="text-left bg-white border-2 border-black p-2 rounded-md w-full">
           <p>Total Outgoings (Month)</p>
           <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-red">
-            {totalOutgoings}
+            {loading ? (
+              <span className="animate-pulse">...</span>
+            ) : (
+              totalOutgoings
+            )}
           </h1>
         </div>
         {activeOption === "Dashboard" && (
