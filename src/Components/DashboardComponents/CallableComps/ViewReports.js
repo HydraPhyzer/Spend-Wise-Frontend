@@ -173,7 +173,6 @@ const ViewReports = ({ categoriesData }) => {
             </select>
             <button
               onClick={() => {
-                alert("Counter" + queryParams.buttonControlCounter);
                 setQueryParams({
                   ...queryParams,
                   previousButton: false,
