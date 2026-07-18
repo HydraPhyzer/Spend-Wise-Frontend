@@ -2,7 +2,7 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Provider from "./ReduxProvider";
-import { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -108,6 +108,7 @@ export default function RootLayout({ children }) {
       >
          <Provider>
           {children}
+          <Analytics />
         </Provider>
         <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} containerStyle={{fontSize:"small"}} />
         <link rel="icon" href="/Favicons/spend-wise-logo-favicon.ico" />
