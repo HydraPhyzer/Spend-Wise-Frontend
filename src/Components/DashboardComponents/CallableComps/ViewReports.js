@@ -71,12 +71,15 @@ const ViewReports = ({ categoriesData }) => {
 
   const deleteReport = (expense_id) => {
     toast.promise(
-      API.delete(`/expenses/delete-Expense/${emailAddress}/${uuid}/${expense_id}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
+      API.delete(
+        `/expenses/delete-Expense/${emailAddress}/${uuid}/${expense_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
         },
-      }),
+      ),
       {
         loading: "Deleting Report...",
         success: (response) => {
@@ -84,7 +87,6 @@ const ViewReports = ({ categoriesData }) => {
           return "Report Deleted Successfully";
         },
         error: (err) => {
-          console.error(err);
           return "Unable to Delete Report";
         },
       },

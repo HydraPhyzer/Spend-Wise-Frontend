@@ -1,4 +1,7 @@
-import { getMonthlyIncomingOutgoingStatsForYear, getYearlySpendingsOnDiffCategories } from "@/app/BackendAPICalls/EndPoints";
+import {
+  getMonthlyIncomingOutgoingStatsForYear,
+  getYearlySpendingsOnDiffCategories,
+} from "@/app/BackendAPICalls/EndPoints";
 import { LineChart, PieChart, BarChart } from "@/Components/Charts/SampleChart";
 import React, { useEffect, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
@@ -17,7 +20,11 @@ const Summary = () => {
   const token = useSelector((state) => state.loginStatus.token);
 
   const getMonthlyIncomingOutgoingStatsForYearMethod = async () => {
-    const data = await getMonthlyIncomingOutgoingStatsForYear(token, userEmail, uuid);
+    const data = await getMonthlyIncomingOutgoingStatsForYear(
+      token,
+      userEmail,
+      uuid,
+    );
     const yearlyData = data[0];
 
     const months = Object.keys(yearlyData);
@@ -29,16 +36,20 @@ const Summary = () => {
     setOutgoingsData(outgoings);
   };
   const getYearlySpendingsOnDiffCategoriesMethod = async () => {
-    const data = await getYearlySpendingsOnDiffCategories(token, userEmail, uuid);
+    const data = await getYearlySpendingsOnDiffCategories(
+      token,
+      userEmail,
+      uuid,
+    );
 
-    let catArray=[];
-    let catSpendArray=[];
+    let catArray = [];
+    let catSpendArray = [];
 
-    data.map((item,index)=>{
-      setCategories(...categories,item.category_name);
+    data.map((item, index) => {
+      setCategories(...categories, item.category_name);
       catArray.push(item.category_name);
       catSpendArray.push(item.total_spent);
-    })
+    });
     setCategories(catArray);
     setCategoriesSpenings(catSpendArray);
   };
@@ -63,9 +74,8 @@ const Summary = () => {
         {monthsData.length === 0 ||
         incomingsData.length === 0 ||
         outgoingsData.length === 0 ||
-        categories.length===0 ||
-        categoriesSpenings.length ===0 ?
-        (
+        categories.length === 0 ||
+        categoriesSpenings.length === 0 ? (
           <div className="w-full h-full flex items-center justify-center">
             <InfinitySpin width="100" color="black" />
             <p className="text-black text-xs md:text-xl font-semibold ml-4">
@@ -84,7 +94,12 @@ const Summary = () => {
                 />
               }
             />
-            <ChildComponent graphText="Pie Chart (Yearly Report)" chartType={<PieChart labels={categories} dataset1={categoriesSpenings} />} />
+            <ChildComponent
+              graphText="Pie Chart (Yearly Report)"
+              chartType={
+                <PieChart labels={categories} dataset1={categoriesSpenings} />
+              }
+            />
           </>
         )}
       </div>

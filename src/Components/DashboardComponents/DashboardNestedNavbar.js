@@ -31,7 +31,7 @@ const DashboardNestedNavbar = () => {
         const response = await API.get("/categories/get-All-Categories");
         setCategoriesData(response.data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error Fetching Categories : ", error);
       }
     }
     getCategories();

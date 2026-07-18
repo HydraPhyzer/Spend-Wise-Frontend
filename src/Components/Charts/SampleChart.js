@@ -26,9 +26,7 @@ ChartJS.register(
   Title,
 );
 
-export function PieChart({labels , dataset1}) {
-  console.log("Boy : " + labels);
-  console.log("Hah : " + dataset1);
+export function PieChart({ labels, dataset1 }) {
   const data = {
     labels: labels,
     datasets: [
@@ -74,39 +72,39 @@ export function PieChart({labels , dataset1}) {
   return <Pie data={data} options={options} />;
 }
 
-export function LineChart({monthsData, dataset1, dataset2}) {
+export function LineChart({ monthsData, dataset1, dataset2 }) {
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
+        text: "Chart.js Line Chart",
       },
     },
   };
 
-const labels = monthsData;
+  const labels = monthsData;
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Outgoings',
-      data: dataset2,
-      borderColor: 'red',
-      backgroundColor: 'red',
-    },
-    {
-      label: 'Incomings',
-      data: dataset1,
-      borderColor: 'green',
-      backgroundColor: 'green',
-    },
-  ],
-};
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Outgoings",
+        data: dataset2,
+        borderColor: "red",
+        backgroundColor: "red",
+      },
+      {
+        label: "Incomings",
+        data: dataset1,
+        borderColor: "green",
+        backgroundColor: "green",
+      },
+    ],
+  };
 
-return <Line data={data} options={options} />;
+  return <Line data={data} options={options} />;
 }

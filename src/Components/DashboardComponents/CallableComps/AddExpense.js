@@ -27,37 +27,36 @@ const AddExpense = ({ categoriesData, setShowAddExpense }) => {
   };
 
   const SaveRecord = () => {
-  if (
-    !formState.expense_name ||
-    !formState.expense_amount ||
-    !formState.expense_date ||
-    !formState.flow_type ||
-    !formState.category_name
-  ) {
-    toast.error("Please Fill in all Required Fields.");
-    return;
-  }
-
-  toast.promise(
-    API.post("/expenses/save-expense", formState, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }),
-    {
-      loading: "Saving Expense...",
-      success: (response) => {
-        setShowAddExpense(false);
-        return "Expense Saved Successfully!";
-      },
-      error: (error) => {
-        console.error(error);
-        return "Failed to Save Expense";
-      },
+    if (
+      !formState.expense_name ||
+      !formState.expense_amount ||
+      !formState.expense_date ||
+      !formState.flow_type ||
+      !formState.category_name
+    ) {
+      toast.error("Please Fill in all Required Fields.");
+      return;
     }
-  );
-};
+
+    toast.promise(
+      API.post("/expenses/save-expense", formState, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }),
+      {
+        loading: "Saving Expense...",
+        success: (response) => {
+          setShowAddExpense(false);
+          return "Expense Saved Successfully!";
+        },
+        error: (error) => {
+          return "Failed to Save Expense";
+        },
+      },
+    );
+  };
 
   return (
     <div className="w-full relative animate-fadeIn">

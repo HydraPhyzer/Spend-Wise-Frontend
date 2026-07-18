@@ -40,7 +40,7 @@ export const checkTokenValidity = (token, router) => async (dispatch) => {
     API.post("users/check-token-validity", { token: token })
       .then((response) => {
         if (response.data) {
-          console.log("Token is valid");
+          // Token is Valid, Do Nothing
         } else {
           dispatch(updateLogoutStatus());
           router.push("/authentication/login");
@@ -56,7 +56,11 @@ export const checkTokenValidity = (token, router) => async (dispatch) => {
   }
 };
 
-export const getMonthlyIncomingOutgoingStats = async (token, emailAddress, uuid) => {
+export const getMonthlyIncomingOutgoingStats = async (
+  token,
+  emailAddress,
+  uuid,
+) => {
   try {
     const response = await API.get(
       `expenses/get-FlowtypeWiseExpenseAmountMapper?emailAddress=${emailAddress}&UUID=${uuid}`,
@@ -69,12 +73,15 @@ export const getMonthlyIncomingOutgoingStats = async (token, emailAddress, uuid)
     );
     return response.data || [];
   } catch (error) {
-    console.log("API Error:", error);
     return [];
   }
 };
 
-export const getMonthlyIncomingOutgoingStatsForYear = async (token, emailAddress, uuid) => {
+export const getMonthlyIncomingOutgoingStatsForYear = async (
+  token,
+  emailAddress,
+  uuid,
+) => {
   try {
     const response = await API.get(
       `expenses/get-getEachMonthIncomingAndOutgoing?emailAddress=${emailAddress}&UUID=${uuid}`,
@@ -87,11 +94,15 @@ export const getMonthlyIncomingOutgoingStatsForYear = async (token, emailAddress
     );
     return response.data || [];
   } catch (error) {
-    console.log("API Error:", error);
     return [];
   }
 };
-export const getYearlySpendingsOnDiffCategories = async (token, emailAddress, uuid) => {
+
+export const getYearlySpendingsOnDiffCategories = async (
+  token,
+  emailAddress,
+  uuid,
+) => {
   try {
     const response = await API.get(
       `expenses/get-getYearlySpendingsOnDiffCategories?emailAddress=${emailAddress}&UUID=${uuid}`,
@@ -102,12 +113,8 @@ export const getYearlySpendingsOnDiffCategories = async (token, emailAddress, uu
         },
       },
     );
-
-    console.log("API response:", response.data);
-
     return response.data || [];
   } catch (error) {
-    console.log("API Error:", error);
     return [];
   }
 };

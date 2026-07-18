@@ -42,7 +42,6 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
           return "All Expenses Removed Successfully!";
         },
         error: (error) => {
-          console.error(error);
           return "Failed to Remove all Expenses.";
         },
       },
