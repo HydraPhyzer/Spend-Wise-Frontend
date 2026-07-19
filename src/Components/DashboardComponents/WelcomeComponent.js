@@ -124,28 +124,28 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
   }, []);
 
   return (
-    <div className="bg-yellow p-6 rounded-lg w-full h-[35vh] md:h-[30vh] flex flex-col justify-between relative border-2 border-black">
+    <div className="bg-yellow p-4 sm:p-6 rounded-lg w-full min-h-[35vh] md:h-[30vh] flex flex-col justify-between relative border-2 border-black">
       <section>
-        <h1 className="md:text-3xl text-md font-bold">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
           Hi <span className="transform animate-from-top">{userName}</span>{" "}
           <span className="bg-black rounded-md p-1">👋</span>
         </h1>
         <br />
-        <p className="md:text-base text-xs">
+        <p className="text-xs sm:text-sm md:text-base">
           Here you can manage your expenses, view reports, and add new options
           to track your spending effectively.
         </p>
       </section>
 
       <div className="absolute top-4 right-4 gap-2 text-gray-600 md:flex hidden">
-        <p className="mt-4 bg-black text-white rounded-md  p-2 px-3 md:text-sm text-xs ">
+        <p className="mt-4 bg-black text-white rounded-md p-2 px-3 md:text-sm text-xs">
           {currentTime.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           })}
         </p>
 
-        <p className="mt-4  bg-black text-white rounded-md  p-2 px-3 md:text-sm text-xs ">
+        <p className="mt-4 bg-black text-white rounded-md p-2 px-3 md:text-sm text-xs">
           {currentTime.toLocaleDateString([], {
             day: "2-digit",
             month: "long",
@@ -154,10 +154,10 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-8 gap-6 w-full mt-6 text-xs md:text-base relative">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-3 md:gap-6 w-full mt-6 text-xs md:text-base relative">
         <div className="text-left bg-white w-full p-2 rounded-md">
           <p>Total Incomings (Month)</p>
-          <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-green">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-green">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
@@ -168,7 +168,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
         <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Outgoings (Month)</p>
-          <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-red">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-red">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
@@ -179,7 +179,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
         <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Savings (Month)</p>
-          <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-blue">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-blue">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
@@ -189,18 +189,18 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
         </div>
 
         {activeOption === "Dashboard" && (
-          <div className="col-span-2 flex items-center w-full justify-end mt-2 md:mt-0 md:col-auto md:absolute bottom-0 gap-x-2">
-            <div className="relative h-12 min-w-[330px] flex justify-end">
+          <div className="col-span-1 sm:col-span-3 md:col-span-2 flex items-center w-full justify-center sm:justify-end mt-2 md:mt-0 md:col-auto md:absolute bottom-0 gap-2 sm:flex-nowrap">
+            <div className="relative h-12 w-full sm:w-auto sm:min-w-[280px] flex justify-center sm:justify-end">
               {/* Delete Button */}
               <div
-                className={`absolute right-0 transition-all duration-300 ease-in-out ${
+                className={`absolute flex items-end justify-end right-0 transition-all duration-300 ease-in-out ${
                   showDeleteConfirmation
                     ? "opacity-0 scale-95 pointer-events-none"
                     : "opacity-100 scale-100"
                 }`}
               >
                 <button
-                  className="bg-red-700 text-white rounded-md md:rounded-full p-3 px-4 md:text-sm text-xs  cursor-pointer flex items-center gap-2"
+                  className="bg-red-700 text-white rounded-md md:rounded-full p-3 px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap mt-1 md:mt-0"
                   onClick={() => setShowDeleteConfirmation(true)}
                 >
                   Delete All Expense
@@ -210,21 +210,21 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
               {/* Confirmation Box */}
               <div
-                className={`absolute right-0 transition-all duration-300 ease-in-out ${
+                className={`absolute mt-1 md:mt-0 right-0 transition-all duration-300 ease-in-out ${
                   showDeleteConfirmation
                     ? "opacity-100 scale-100 translate-y-0"
                     : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                 }`}
               >
-                <div className="bg-white  rounded-full p-3 px-4 flex items-center gap-3 whitespace-nowrap">
-                  <p className="text-xs md:text-sm font-medium">
+                <div className="bg-white rounded-md md:rounded-full md:p-3 md:px-4 p-2 px-3 flex items-center gap-2 sm:gap-3 whitespace-nowrap">
+                  <p className="text-xs sm:text-sm font-medium">
                     Are you sure?
                   </p>
 
                   <button
                     disabled={deleting}
                     onClick={removeMyAllExpenses}
-                    className="bg-red-700 text-white rounded-full px-4 py-1 text-xs md:text-sm cursor-pointer disabled:opacity-70"
+                    className="bg-red-700 text-white rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer disabled:opacity-70"
                   >
                     Yes
                   </button>
@@ -232,7 +232,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
                   {!deleting && (
                     <button
                       onClick={() => setShowDeleteConfirmation(false)}
-                      className="bg-black text-white rounded-full px-4 py-1 text-xs md:text-sm cursor-pointer"
+                      className="bg-black text-white rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer"
                     >
                       No
                     </button>
@@ -243,7 +243,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
             {/* Add Button */}
             <button
-              className="bg-green-700 text-white rounded-md md:rounded-full p-3 px-4 md:text-sm text-xs cursor-pointer flex items-center gap-2 shrink-0"
+              className="bg-green-700 text-white rounded-md md:rounded-full p-3 px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap"
               onClick={onAddExpenseClick}
             >
               Add New Expense
@@ -255,4 +255,5 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
     </div>
   );
 };
+
 export default WelcomeComponent;
