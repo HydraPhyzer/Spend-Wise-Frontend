@@ -200,7 +200,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
                 }`}
               >
                 <button
-                  className="bg-red-700 text-white rounded-md md:rounded-full p-3 px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap mt-1 md:mt-0"
+                  className="bg-red-700 text-white rounded-md md:rounded-full p-2 px-3 md:p-3 md:px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap mt-2 md:mt-0"
                   onClick={() => setShowDeleteConfirmation(true)}
                 >
                   Delete All Expense
@@ -216,15 +216,17 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
                     : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                 }`}
               >
-                <div className="bg-white rounded-md md:rounded-full md:p-3 md:px-4 p-2 px-3 flex items-center gap-2 sm:gap-3 whitespace-nowrap">
+                <div className="bg-white rounded-md md:rounded-full p-1 px-3 pr-1 md:p-3 md:px-4 flex items-center gap-2 sm:gap-3 whitespace-nowrap mt-1 md:mt-0">
                   <p className="text-xs sm:text-sm font-medium">
-                    Are you sure?
+                    <span className="block md:hidden">Confirm ? </span>
+                    {/* Desktop */}
+                    <span className="hidden md:block">Are You Sure ? </span>
                   </p>
 
                   <button
                     disabled={deleting}
                     onClick={removeMyAllExpenses}
-                    className="bg-red-700 text-white rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer disabled:opacity-70"
+                    className="bg-red-700 text-white rounded-md md:rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer disabled:opacity-70"
                   >
                     Yes
                   </button>
@@ -232,7 +234,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
                   {!deleting && (
                     <button
                       onClick={() => setShowDeleteConfirmation(false)}
-                      className="bg-black text-white rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer"
+                      className="bg-black text-white rounded-md md:rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm cursor-pointer"
                     >
                       No
                     </button>
@@ -243,10 +245,12 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
 
             {/* Add Button */}
             <button
-              className="bg-green-700 text-white rounded-md md:rounded-full p-3 px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap"
+              className="bg-green-700 text-white rounded-md md:rounded-full p-2 px-3 md:p-3 md:px-4 text-xs sm:text-sm cursor-pointer flex items-center gap-2 shrink-0 whitespace-nowrap"
               onClick={onAddExpenseClick}
             >
-              Add New Expense
+              <span className="block md:hidden">Add Expense</span>
+              {/* Desktop */}
+              <span className="hidden md:block">Add New Expense</span>
               <IoAddSharp className="w-4 h-4 md:w-6 md:h-6" />
             </button>
           </div>
