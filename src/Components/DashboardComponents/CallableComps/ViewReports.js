@@ -217,10 +217,10 @@ const ViewReports = ({ categoriesData }) => {
         </div>
 
         {/* Wrapper below gets position:relative so the loading overlay
-            can sit on top of whatever data is currently showing */}
+            can sit on top of whatever data is currently showing * and bring to the centre of screen. */}
         <div className="relative">
           {isLoading && (
-            <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10 rounded-md">
+            <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10 rounded-md my-5">
               <div className="w-8 h-8 border-4 border-gray-300 border-t-black rounded-full animate-spin" />
             </div>
           )}
