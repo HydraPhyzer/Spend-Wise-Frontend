@@ -76,7 +76,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
       setTotalOutgoings(formatCurrency(outgoing));
       setTotalSavings(
         formatCurrency({
-          amount: incoming.amount - outgoing.amount,
+          amount: incoming.amount + outgoing.amount,
           currency: incoming.currency || outgoing.currency,
         }),
       );
@@ -155,7 +155,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-8 gap-6 w-full mt-6 text-xs md:text-base relative">
-        <div className="text-left bg-white border-2 border-black w-full p-2 rounded-md">
+        <div className="text-left bg-white w-full p-2 rounded-md">
           <p>Total Incomings (Month)</p>
           <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-green">
             {loading ? (
@@ -166,7 +166,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
           </h1>
         </div>
 
-        <div className="text-left bg-white border-2 border-black p-2 rounded-md w-full">
+        <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Outgoings (Month)</p>
           <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-red">
             {loading ? (
@@ -177,7 +177,7 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
           </h1>
         </div>
 
-        <div className="text-left bg-white border-2 border-black p-2 rounded-md w-full">
+        <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Savings (Month)</p>
           <h1 className="animate-fadeIn font-bold md:text-2xl text-lg text-blue">
             {loading ? (
