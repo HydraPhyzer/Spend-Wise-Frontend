@@ -4,6 +4,7 @@ import { IoAddSharp, IoRemoveSharp } from "react-icons/io5";
 import { getMonthlyIncomingOutgoingStats } from "@/app/BackendAPICalls/EndPoints";
 import API from "@/app/Libs/Axios/Axios";
 import toast from "react-hot-toast";
+import { FaArrowTrendDown, FaArrowTrendUp, FaPiggyBank } from "react-icons/fa6";
 
 const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
   const [totalIncomings, setTotalIncomigs] = useState(null);
@@ -157,33 +158,48 @@ const WelcomeComponent = ({ onAddExpenseClick, activeOption }) => {
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-3 md:gap-6 w-full mt-6 text-xs md:text-base relative">
         <div className="text-left bg-white w-full p-2 rounded-md">
           <p>Total Incomings (Month)</p>
-          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-green">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-green flex items-center justify-between">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
-              totalIncomings
+              <>
+                {totalIncomings}
+                <span>
+                  <FaArrowTrendUp className="w-4 h-4 md:w-6 md:h-6 mr-2" />
+                </span>
+              </>
             )}
           </h1>
         </div>
 
         <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Outgoings (Month)</p>
-          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-red">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-red flex items-center justify-between">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
-              totalOutgoings
+              <>
+                {totalOutgoings}
+                <span>
+                  <FaArrowTrendDown className="w-4 h-4 md:w-6 md:h-6 mr-2" />
+                </span>
+              </>
             )}
           </h1>
         </div>
 
         <div className="text-left bg-white p-2 rounded-md w-full">
           <p>Total Savings (Month)</p>
-          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-blue">
+          <h1 className="animate-fadeIn font-bold text-lg md:text-2xl text-blue flex items-center justify-between ">
             {loading ? (
               <span className="animate-pulse">...</span>
             ) : (
-              totalSavings
+              <>
+                {totalSavings}
+                <span>
+                  <FaPiggyBank className="w-4 h-4 md:w-6 md:h-6 mr-2" />
+                </span>
+              </>
             )}
           </h1>
         </div>
