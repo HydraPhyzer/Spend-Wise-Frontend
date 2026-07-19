@@ -1,5 +1,5 @@
 import API from "@/app/Libs/Axios/Axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { MdDelete, MdDeleteSweep } from "react-icons/md";
@@ -15,7 +15,10 @@ const ViewReports = ({ categoriesData }) => {
   let uuid = useSelector((state) => state.loginStatus.uuid);
 
   const [deleteId, setDeleteId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   let screenType = useScreenType();
+
+  const debounceTimer = useRef(null);
 
   let eachReportData = {
     expense_id: null,
@@ -43,15 +46,18 @@ const ViewReports = ({ categoriesData }) => {
   let [reportData, setReportData] = React.useState([eachReportData]);
   let [queryParams, setQueryParams] = React.useState(searchQueryParam);
 
+  // Search box updates state instantly (so typing feels responsive)
+  // but the actual API call is debounced 400ms below, in the effect.
   let handleInputChange = (e) => {
     const { name, value } = e.target;
-    setQueryParams({
-      ...queryParams,
+    setQueryParams((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   let fetchReports = () => {
+    setIsLoading(true);
     API.get("/expenses/get-Expense", {
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -65,7 +71,10 @@ const ViewReports = ({ categoriesData }) => {
         setReportData(response.data);
       })
       .catch((error) => {
-        toast.error("Error Fetching Reports:", error);
+        toast.error("Error fetching reports");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -93,13 +102,20 @@ const ViewReports = ({ categoriesData }) => {
     );
   };
 
+  // Single source of truth: any change to queryParams triggers a fetch.
+  // Search field is debounced 400ms; everything else (pagination, filters,
+  // category) fires immediately.
   useEffect(() => {
-    fetchReports();
-  }, []);
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
-  //fetch reports when any thing changes in query params
-  useEffect(() => {
-    fetchReports();
+    debounceTimer.current = setTimeout(
+      () => {
+        fetchReports();
+      },
+      queryParams.searchContent ? 400 : 0,
+    );
+
+    return () => clearTimeout(debounceTimer.current);
   }, [queryParams]);
 
   return (
@@ -130,15 +146,15 @@ const ViewReports = ({ categoriesData }) => {
           <div className="flex md:flex-row w-full justify-between gap-x-5">
             <button
               onClick={() => {
-                setQueryParams({
-                  ...queryParams,
+                setQueryParams((prev) => ({
+                  ...prev,
                   filterPreviousButton: true,
                   filterNextButton: false,
                   filterControlCounter:
-                    queryParams.filterControlCounter > 0
-                      ? queryParams.filterControlCounter--
+                    prev.filterControlCounter > 0
+                      ? prev.filterControlCounter - 1
                       : 0,
-                });
+                }));
               }}
               className="p-2 w-fit border-2 border-black rounded-md bg-black text-xs md:text-sm  text-white cursor-pointer"
             >
@@ -146,15 +162,15 @@ const ViewReports = ({ categoriesData }) => {
             </button>
             <button
               onClick={() => {
-                setQueryParams({
-                  ...queryParams,
+                setQueryParams((prev) => ({
+                  ...prev,
                   previousButton: true,
                   nextButton: false,
                   buttonControlCounter:
-                    queryParams.buttonControlCounter > 0
-                      ? queryParams.buttonControlCounter--
+                    prev.buttonControlCounter > 0
+                      ? prev.buttonControlCounter - 1
                       : 0,
-                });
+                }));
               }}
               className="p-2 w-fit border-2 border-black rounded-md bg-black text-xs md:text-sm  text-white cursor-pointer"
             >
@@ -173,12 +189,12 @@ const ViewReports = ({ categoriesData }) => {
             </select>
             <button
               onClick={() => {
-                setQueryParams({
-                  ...queryParams,
+                setQueryParams((prev) => ({
+                  ...prev,
                   previousButton: false,
                   nextButton: true,
-                  buttonControlCounter: queryParams.buttonControlCounter++,
-                });
+                  buttonControlCounter: prev.buttonControlCounter + 1,
+                }));
               }}
               className="p-2 w-fit border-2 border-black rounded-md bg-black text-xs md:text-sm  text-white cursor-pointer"
             >
@@ -186,12 +202,12 @@ const ViewReports = ({ categoriesData }) => {
             </button>
             <button
               onClick={() => {
-                setQueryParams({
-                  ...queryParams,
+                setQueryParams((prev) => ({
+                  ...prev,
                   filterPreviousButton: false,
                   filterNextButton: true,
-                  filterControlCounter: queryParams.filterControlCounter++,
-                });
+                  filterControlCounter: prev.filterControlCounter + 1,
+                }));
               }}
               className="p-2 w-fit border-2 border-black rounded-md bg-black text-xs md:text-sm  text-white cursor-pointer"
             >
@@ -200,7 +216,15 @@ const ViewReports = ({ categoriesData }) => {
           </div>
         </div>
 
-        <div>
+        {/* Wrapper below gets position:relative so the loading overlay
+            can sit on top of whatever data is currently showing */}
+        <div className="relative">
+          {isLoading && (
+            <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10 rounded-md">
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-black rounded-full animate-spin" />
+            </div>
+          )}
+
           <div>
             {screenType != "mobile" && (
               <table className="w-full border-collapse border border-gray-300">
