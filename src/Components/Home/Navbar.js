@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import useScreenType from "../Screen/Resize";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkBackendHealth,
@@ -11,13 +9,14 @@ import {
 } from "@/app/BackendAPICalls/EndPoints";
 import { AvatarDropdown } from "../SampleComponents/AvatarDropdown";
 import { useRouter } from "next/navigation";
+import Brand from "../UI/Brand";
+import ThemeToggle from "../UI/ThemeToggle";
 
 const Navbar = () => {
-  const screenType = useScreenType();
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { status, statusMessage } = useSelector((state) => state.backendStatus);
+  const { status } = useSelector((state) => state.backendStatus);
   const { loginResult, fullName, token } = useSelector(
     (state) => state.loginStatus,
   );
@@ -35,55 +34,49 @@ const Navbar = () => {
   }, [dispatch]);
 
   return (
-    <div className="border-b border-gray-300 sticky top-0 bg-white z-50">
-      <main className="md:mx-6 mx-4">
-        <header className="flex gap-x-6 flex-row justify-between items-center">
-          <div className="flex items-center md:gap-x-3 gap-x-1">
-            <Image
-              src="/Logo/spend-wise-logo.png"
-              alt="Spend-Wise Logo"
-              width={50}
-              height={50}
-            />
+    <header className="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur">
+      <div className="page-shell flex items-center justify-between gap-4 py-3 md:py-4">
+        <div className="flex min-w-0 items-center gap-4">
+          <Brand subtitle={null} />
 
-            <span className="md:text-3xl font-bold">
-              <Link href="/home">Spend-Wise</Link>
-            </span>
-
-            {screenType === "laptop" && (
-              <section className="flex items-center gap-x-2 md:ml-4 bg-black text-white md:p-2 p-1 rounded-md">
-                <span
-                  className={`${status ? "bg-green" : "bg-red"} md:h-4 md:w-4 h-2 w-2 rounded-full animate-pulse`}
-                ></span>
-                <span
-                  className={`${status ? "bg-green" : "bg-red"} md:h-4 md:w-4 h-2 w-2 rounded-full animate-pulse`}
-                ></span>
-                <span
-                  className={`${status ? "bg-green" : "bg-red"} md:h-4 md:w-4 h-2 w-2 rounded-full animate-pulse`}
-                ></span>
-              </section>
-            )}
-          </div>
-
-          <div className="relative flex items-center md:p-4 p-2 gap-x-4 py-4 md:px-6 font-semibold cursor-pointer text-xs md:text-base">
-            {!loginResult && <Link href="/authentication/login">Log In</Link>}
+          <span
+            className="hidden h-[var(--control-h)] items-center gap-2 rounded-[var(--control-r)] border border-line bg-surface px-3 sm:flex"
+            title={status ? "Backend online" : "Backend unreachable"}
+          >
             <span
-              className={`bg-black text-white rounded-md ${!loginResult && "md:p-4 p-2"}`}
-            >
-              {loginResult ? (
-                <AvatarDropdown fullName={fullName} />
-              ) : screenType === "laptop" ? (
-                <Link href="/authentication/signup" className="">
-                  Create Account
-                </Link>
-              ) : (
-                <Link href="/authentication/signup">Sign Up</Link>
-              )}
-            </span>
-          </div>
-        </header>
-      </main>
-    </div>
+              className={`h-[7px] w-[7px] shrink-0 animate-pulse rounded-full ${
+                status ? "bg-pos" : "bg-neg"
+              }`}
+            />
+            <span className="eyebrow">{status ? "Online" : "Offline"}</span>
+          </span>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <ThemeToggle />
+
+          {loginResult ? (
+            <AvatarDropdown fullName={fullName} />
+          ) : (
+            <>
+              <Link
+                href="/authentication/login"
+                className="btn btn-secondary"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/authentication/signup"
+                className="btn btn-primary hover:text-white"
+              >
+                <span className="hidden sm:inline">Create account</span>
+                <span className="sm:hidden">Sign up</span>
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
   );
 };
 

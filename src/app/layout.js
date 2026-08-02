@@ -1,24 +1,33 @@
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Provider from "./ReduxProvider";
 import { Analytics } from "@vercel/analytics/next"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Editorial serif for headings, Plex Sans for body, Plex Mono for figures.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
+
+// Applies the saved theme before first paint so there is no light/dark flash.
+const themeInitScript = `(function(){try{var t=localStorage.getItem("spendwise-theme");if(!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`;
 
 export const metadata = {
   metadataBase: new URL("https://spend-wise-client.vercel.app/"),
@@ -79,9 +88,30 @@ export const metadata = {
       "max-video-preview": -1,
     },
   },
-  alternates: {
-    canonical: "https://spend-wise-client.vercel.app/",
+  // No site-wide canonical: each route declares its own, so nothing
+  // inherits a URL that only 308-redirects elsewhere.
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
   },
+  icons: {
+    icon: [
+      { url: "/Favicons/spend-wise-logo-favicon.ico" },
+      {
+        url: "/Favicons/spend-wise-logo-favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/Favicons/spend-wise-logo-favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+    ],
+    apple: "/Favicons/spend-wise-logo-apple-touch-icon.png",
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -100,21 +130,43 @@ export const metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f6f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0e11" },
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+        className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} antialiased`}
       >
          <Provider>
           {children}
           <Analytics />
         </Provider>
-        <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} containerStyle={{fontSize:"small"}} />
-        <link rel="icon" href="/Favicons/spend-wise-logo-favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          href="/Favicons/spend-wise-logo-apple-touch-icon.png"
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "var(--raise)",
+              color: "var(--text)",
+              border: "1px solid var(--line)",
+              borderRadius: "6px",
+              boxShadow: "var(--shadow)",
+              fontSize: "13px",
+            },
+          }}
+          containerStyle={{ fontSize: "small" }}
         />
       </body>
     </html>

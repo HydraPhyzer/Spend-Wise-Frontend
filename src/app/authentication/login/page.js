@@ -22,14 +22,6 @@ export const metadata = {
       "Access your Spend-Wise dashboard and continue tracking your finances.",
     url: "https://spend-wise-client.vercel.app/authentication/login",
     siteName: "Spend-Wise",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Spend-Wise Login",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },

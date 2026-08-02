@@ -1,17 +1,15 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import useScreenType from "@/Components/Screen/Resize";
 import Link from "next/link";
-import { GoDotFill } from "react-icons/go";
-import { FaStarOfLife } from "react-icons/fa6";
 import API from "@/app/Libs/Axios/Axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Brand from "@/Components/UI/Brand";
+import ThemeToggle from "@/Components/UI/ThemeToggle";
+import AuthAside from "@/Components/UI/AuthAside";
 
 const SignupClient = () => {
-  const screenType = useScreenType();
   const router = useRouter();
   const [userSignUpData, setUserSignUpData] = useState({
     fullName: "",
@@ -79,132 +77,114 @@ const SignupClient = () => {
   };
 
   return (
-    <div className="flex text-xs md:text-sm lg:text-base">
-      <section className="w-full md:w-[50%] min-h-screen md:p-20 p-5 md:justify-center flex flex-col md:gap-y-2 gap-y-1">
-        <div className="flex flex-col gap-y-2 text-gray-500">
-          <Link href="/">
-            <Image
-              src="/Logo/spend-wise-logo.png"
-              alt="Spend-Wise Logo"
-              width={screenType === "laptop" ? 70 : 50}
-              height={screenType === "laptop" ? 70 : 50}
-            />
-          </Link>
-          <span className="text-2xl font-bold">Get Started</span>
-          <span className="font-bold">
-            Welcome to Spend-Wise, All in One Your Funds Management Solution
-          </span>
-        </div>
+    <div className="flex min-h-screen bg-bg">
+      <section className="flex w-full flex-col justify-center px-5 py-8 sm:px-10 lg:w-1/2 lg:px-16 xl:px-24">
+        <div className="mx-auto w-full max-w-[420px]">
+          <div className="mb-8 flex items-start justify-between gap-4">
+            <Brand href="/" subtitle="Funds Management" />
+            <ThemeToggle />
+          </div>
 
-        <span className="border-b-2 rounded-full w-full border-white my-5" />
-
-        <span className="flex items-center gap-x-2 text-gray-500">
-          <GoDotFill />
-          <label className="text-gray-500">Enter Full Name</label>
-        </span>
-        <input
-          className="border-2 border-gray-300 p-4 rounded-md bg-gray-100 outline-none"
-          type="text"
-          name="fullName"
-          onChange={userSignUpDataHandler}
-          placeholder="Full Name"
-        />
-        <br />
-        <span className="flex items-center gap-x-2 text-gray-500">
-          <GoDotFill />
-          <label className="text-gray-500">Enter Email Address</label>
-        </span>
-        <input
-          className="border-2 border-gray-300 p-4 rounded-md bg-gray-100 outline-none"
-          type="email"
-          placeholder="Email Address"
-          name="emailAddress"
-          onChange={userSignUpDataHandler}
-        />
-        <br />
-        <span className="flex items-center gap-x-2 text-gray-500">
-          <GoDotFill />
-          <label className="text-gray-500">Enter Password</label>
-        </span>
-        <input
-          className="border-2 border-gray-300 p-4 rounded-md bg-gray-100 outline-none"
-          type="password"
-          placeholder="Password"
-          name="password"
-          onChange={userSignUpDataHandler}
-        />
-        <br />
-        <span className="flex items-center gap-x-2 text-gray-500">
-          <GoDotFill />
-          <label className="text-gray-500">Mention Gender</label>
-        </span>
-        <select
-          className="border-2 border-gray-300 p-4 rounded-md bg-gray-100 outline-none"
-          defaultValue={"Specify Your Gender"}
-          name="gender"
-          onChange={userSignUpDataHandler}
-        >
-          <option disabled>Specify Your Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <br />
-        <button
-          type="submit"
-          className="p-4 rounded-md bg-blue-500 hover:cursor-pointer text-white"
-          onClick={() => {
-            signUpUserAccount();
-          }}
-        >
-          SIGN UP
-        </button>
-
-        <span className="border-b-2 rounded-full w-full border-white my-5" />
-
-        <p className="my-2">
-          Already have an account?{" "}
-          <Link
-            href="/authentication/login"
-            className="bg-black rounded-md text-white px-3 p-1"
-          >
-            Log In
-          </Link>
-        </p>
-      </section>
-
-      <section className="w-[50%] md:display-none bg-blue-500 m-4 overflow-hidden relative rounded-lg hidden md:flex justify-center items-center">
-        <div className="w-100 h-100 rounded-full absolute top-0 left-0 translate-x-[-30%] translate-y-[-30%] bg-white">
-          <div className="w-80 h-80 bg-blue-500 rounded-full absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2"></div>
-        </div>
-
-        <div className="space-y-6 text-white">
-          <span className="flex justify-center items-center gap-x-2">
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-          </span>
-          <p className="text-center text-white px-[20%] text-lg font-semibold">
-            Spend-Wise helps you manage your finances effectively by tracking
-            expenses, creating budgets, and providing insightful reports to make
-            informed financial decisions.
+          <div className="eyebrow">Get started</div>
+          <h1 className="display mt-2 text-[32px] md:text-[38px]">
+            Create your account
+          </h1>
+          <p className="mt-3 text-[13.5px] leading-[1.6] text-text2">
+            All-in-one funds management — income, expenses, transfers, and the
+            analytics to make sense of them.
           </p>
 
-          <span className="flex justify-center items-center gap-x-2">
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-            <FaStarOfLife />
-          </span>
-        </div>
+          <div className="my-7 border-t border-line" />
 
-        <div className="w-100 h-100 rounded-full absolute bottom-0 right-0 translate-x-[30%] translate-y-[30%] bg-white">
-          <div className="w-80 h-80 bg-blue-500 rounded-full absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="flex flex-col gap-4">
+            <div>
+              <label className="field-label" htmlFor="signup-name">
+                Full name
+              </label>
+              <input
+                id="signup-name"
+                className="field h-11"
+                type="text"
+                name="fullName"
+                autoComplete="name"
+                onChange={userSignUpDataHandler}
+                placeholder="Ana Reyes"
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="signup-email">
+                Email address
+              </label>
+              <input
+                id="signup-email"
+                className="field h-11"
+                type="email"
+                placeholder="you@example.com"
+                name="emailAddress"
+                autoComplete="email"
+                onChange={userSignUpDataHandler}
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="signup-password">
+                Password
+              </label>
+              <input
+                id="signup-password"
+                className="field h-11"
+                type="password"
+                placeholder="••••••••"
+                name="password"
+                autoComplete="new-password"
+                onChange={userSignUpDataHandler}
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="signup-gender">
+                Gender
+              </label>
+              <select
+                id="signup-gender"
+                className="field h-11"
+                defaultValue=""
+                name="gender"
+                onChange={userSignUpDataHandler}
+              >
+                <option value="" disabled>
+                  Specify your gender
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-lg btn-primary mt-2 w-full"
+              onClick={() => {
+                signUpUserAccount();
+              }}
+            >
+              Create account
+            </button>
+          </div>
+
+          <div className="my-7 border-t border-line" />
+
+          <p className="num text-[11px] text-text3">
+            Already have an account?{" "}
+            <Link href="/authentication/login" className="text-accent">
+              Log in →
+            </Link>
+          </p>
         </div>
       </section>
+
+      <AuthAside />
     </div>
   );
 };

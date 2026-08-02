@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { IoAddCircle } from "react-icons/io5";
-import { MdDelete } from "react-icons/md";
+import React, { useState, useEffect } from "react";
+import { IoAddCircle, IoClose } from "react-icons/io5";
 import API from "@/app/Libs/Axios/Axios";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { categoryOptionLabel } from "@/Components/UI/CategoryTag";
 
-const AddExpense = ({ categoriesData, setShowAddExpense }) => {
+const AddExpense = ({ categoriesData, setShowAddExpense, onSaved }) => {
   let userEmail = useSelector((state) => state.loginStatus.emailAddress);
   let uuid = useSelector((state) => state.loginStatus.uuid);
   let token = useSelector((state) => state.loginStatus.token);
@@ -49,6 +49,8 @@ const AddExpense = ({ categoriesData, setShowAddExpense }) => {
         loading: "Saving Expense...",
         success: (response) => {
           setShowAddExpense(false);
+          // Tell the shell so the ledger, stats, and charts refetch now.
+          onSaved?.();
           return "Expense Saved Successfully!";
         },
         error: (error) => {
@@ -58,130 +60,162 @@ const AddExpense = ({ categoriesData, setShowAddExpense }) => {
     );
   };
 
+  // Escape closes the dialog; page behind it stays put while it is open.
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setShowAddExpense(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [setShowAddExpense]);
+
   return (
-    <div className="w-full relative animate-fadeIn">
-      <form className="bg-white text-black p-6 gap-x-5 flex flex-col md:flex-row justify-between rounded-lg w-full relative border-2 border-black">
-        <MdDelete
-          className="absolute top-0 right-0 bg-black p-1 rounded-bl-md w-8 h-8 text-white cursor-pointer"
-          onClick={() => setShowAddExpense(false)}
-        />
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="expense-name"
-          >
-            Expense Name
-          </label>
-          <input
-            type="text"
-            id="expense-name"
-            name="expense_name"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs md:text-sm outline-none"
-            placeholder="Enter expense name"
-          />
-        </div>
+    <div className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-5">
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--scrim)" }}
+        onClick={() => setShowAddExpense(false)}
+      />
 
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="description"
-          >
-            Expense Description
-          </label>
-          <input
-            type="text"
-            id="description"
-            name="expense_description"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs  outline-none"
-            placeholder="Enter description"
-          />
-        </div>
-
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="amount"
-          >
-            Amount
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="expense_amount"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs  outline-none"
-            placeholder="Enter amount"
-          />
-        </div>
-
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="date"
-          >
-            Select Expense Date
-          </label>
-          <input
-            type="date"
-            id="date"
-            name="expense_date"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs outline-none"
-          />
-        </div>
-
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="type"
-          >
-            Money Flow
-          </label>
-          <select
-            id="type"
-            name="flow_type"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs md:text-sm text-gray-500"
-          >
-            <option value="">Select money flow</option>
-            <option value="Incoming">Incoming 🔽</option>
-            <option value="Outgoing">Outgoing 🔼</option>
-          </select>
-        </div>
-
-        <div className="mb-4 w-full">
-          <label
-            className="block text-xs md:text-sm font-medium mb-1"
-            htmlFor="category"
-          >
-            Category
-          </label>
-          <select
-            id="category"
-            name="category_name"
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md text-xs md:text-sm text-gray-500"
-          >
-            <option value="">Select category</option>
-            {categoriesData.map((category) => (
-              <option key={category.category_id} value={category.category_id}>
-                {category.category_icon}
-                {category.category_name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </form>
-
-      <button
-        className="bg-green-700 text-white rounded-lg flex justify-center h-fit gap-2 p-2 px-3 md:text-base items-center text-xs border-2 w-full overflow-hidden my-6 cursor-pointer font-bold"
-        onClick={SaveRecord}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Add transaction"
+        className="animate-rise relative flex max-h-[92vh] w-full max-w-[520px] flex-col overflow-hidden rounded-t-[10px] border border-line sm:rounded-[7px]"
+        style={{ background: "var(--raise)", boxShadow: "var(--shadow)" }}
       >
-        Save Record
-        <IoAddCircle className="w-4 h-4 md:w-6 md:h-6 inline ml-2" />
-      </button>
+        <div className="card-head shrink-0">
+          <div>
+            <div className="card-title">Add transaction</div>
+            <div className="num mt-[3px] text-[10.5px] text-text3">
+              Required fields are marked with an asterisk
+            </div>
+          </div>
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={() => setShowAddExpense(false)}
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-[5px] border border-line text-text2 transition-colors hover:border-line2 hover:text-text"
+          >
+            <IoClose className="h-4 w-4" />
+          </button>
+        </div>
+
+        <form
+          className="flex-1 overflow-y-auto px-4 py-4 md:px-[18px]"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <div className="grid gap-3.5 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="field-label" htmlFor="expense-name">
+                Expense name *
+              </label>
+              <input
+                type="text"
+                id="expense-name"
+                name="expense_name"
+                onChange={handleInputChange}
+                className="field"
+                placeholder="e.g. Groceries at Al-Fatah"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="field-label" htmlFor="description">
+                Description
+              </label>
+              <input
+                type="text"
+                id="description"
+                name="expense_description"
+                onChange={handleInputChange}
+                className="field"
+                placeholder="Optional note"
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="amount">
+                Amount *
+              </label>
+              <input
+                type="number"
+                id="amount"
+                name="expense_amount"
+                onChange={handleInputChange}
+                className="field num"
+                placeholder="0"
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="date">
+                Date *
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="expense_date"
+                onChange={handleInputChange}
+                className="field num"
+              />
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="type">
+                Money flow *
+              </label>
+              <select
+                id="type"
+                name="flow_type"
+                onChange={handleInputChange}
+                className="field"
+              >
+                <option value="">Select money flow</option>
+                <option value="Incoming">Incoming 🔽</option>
+                <option value="Outgoing">Outgoing 🔼</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="field-label" htmlFor="category">
+                Category *
+              </label>
+              <select
+                id="category"
+                name="category_name"
+                onChange={handleInputChange}
+                className="field"
+              >
+                <option value="">Select category</option>
+                {categoriesData.map((category) => (
+                  <option key={category.category_id} value={category.category_id}>
+                    {categoryOptionLabel(category)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div className="flex shrink-0 items-center justify-end gap-2 border-t border-line px-4 py-3 md:px-[18px]">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setShowAddExpense(false)}
+          >
+            Cancel
+          </button>
+          <button type="button" className="btn btn-primary" onClick={SaveRecord}>
+            Save record
+            <IoAddCircle className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,85 +1,101 @@
 import React from "react";
 
+const features = [
+  {
+    title: "Track income & expenses",
+    desc: "Log inflows and outflows with categories, dates, and notes — every movement in one ledger.",
+  },
+  {
+    title: "Smart categories",
+    desc: "Organise spending across food, shopping, bills, and anything else you care to measure.",
+  },
+  {
+    title: "People & transfers",
+    desc: "Keep track of who you send money to, how much, and how often.",
+  },
+  {
+    title: "Visual analytics",
+    desc: "Read your money as charts and breakdowns instead of rows of raw numbers.",
+  },
+  {
+    title: "Time-based insights",
+    desc: "Compare weekly, monthly, and yearly performance without exporting anything.",
+  },
+  {
+    title: "Secure & private",
+    desc: "Token-backed authentication keeps your records yours, on every device.",
+  },
+];
+
+const steps = [
+  {
+    title: "Create an account",
+    desc: "One email, one password. No card, no onboarding maze.",
+  },
+  {
+    title: "Add your transactions",
+    desc: "Record income and expenses as they happen, tagged by category.",
+  },
+  {
+    title: "Analyse & improve",
+    desc: "Watch the charts, spot the leaks, adjust next month's plan.",
+  },
+];
+
 const Features = () => {
   return (
-    <div className="text-center">
-      <section
-        id="features"
-        className="bg-black md:m-6 m-2 md:py-16 md:px-6 md:gap-y-20 text-xs md:text-base py-10 gap-y-10 rounded-md"
-      >
-        <div className="mx-auto max-w-7xl px-6">
-          <h1 className="md:text-4xl text-lg font-bold md:leading-20 text-white">
-            Everything you need
-          </h1>
-          <p className="mt-4 md:text-lg md:leading-8 leading-6 text-white">
-            Built to give you full visibility and control over your finances.
-          </p>
-
-          <div className="mt-12 grid md:gap-8 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Track Income & Expenses",
-                desc: "Log inflows and outflows with categories, dates, and notes.",
-                style: "bg-purple",
-              },
-              {
-                title: "Smart Categories",
-                desc: "Organize spending across food, shopping, bills, and more.",
-                style: "bg-red",
-              },
-              {
-                title: "People & Transfers",
-                desc: "Track who you send money to and how often.",
-                style: "bg-yellow",
-              },
-              {
-                title: "Visual Analytics",
-                desc: "Understand your money with charts and breakdowns.",
-                style: "bg-orange",
-              },
-              {
-                title: "Time-Based Insights",
-                desc: "Analyze weekly, monthly, and yearly spending.",
-                style: "bg-blue",
-              },
-              {
-                title: "Secure & Private",
-                desc: "Your data stays protected with secure authentication.",
-                style: "bg-dark",
-              },
-            ].map((feature) => (
-              <div
-                key={feature.title}
-                className={`rounded-md p-6 ${feature.style || ""}`}
-              >
-                <h3 className="text-sm md:text-lg font-semibold text-white">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-xs md:text-sm text-white">
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
+    <div className="page-shell">
+      <section id="features" className="card overflow-hidden">
+        <div className="card-head flex-col items-start gap-1 md:flex-row md:items-center">
+          <div>
+            <h2 className="card-title">Everything you need</h2>
+            <div className="num mt-1 text-[10.5px] text-text3">
+              Built for full visibility and control over your finances
+            </div>
           </div>
+          <div className="eyebrow hidden md:block">06 capabilities</div>
+        </div>
+
+        <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, i) => (
+            <div
+              key={feature.title}
+              className="bg-surface px-5 py-5 md:px-6 md:py-6"
+            >
+              <div className="num text-[10px] text-text3">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <h3 className="display mt-[10px] text-[17px] md:text-[18px]">
+                {feature.title}
+              </h3>
+              <p className="mt-[6px] max-w-[52ch] text-[13px] leading-[1.6] text-text2">
+                {feature.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="how" className="md:py-20 py-10">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="text-xl md:text-3xl font-semibold">
-            How Spend-Wise works
-          </h2>
-          <div className="mt-10 grid md:gap-8 gap-4 md:grid-cols-3">
-            {[
-              "Create an account",
-              "Add your transactions",
-              "Analyze & improve",
-            ].map((step, i) => (
-              <div key={step} className="rounded-md border border-gray-200 p-6">
-                <span className="text-sm font-semibold text-red">
-                  Step {i + 1}
-                </span>
-                <h3 className="mt-2 text-xs md:text-lg font-medium">{step}</h3>
+      <section id="how" className="mt-4 md:mt-5">
+        <div className="card overflow-hidden">
+          <div className="card-head">
+            <h2 className="card-title">How Spend-Wise works</h2>
+            <div className="eyebrow hidden sm:block">Three steps</div>
+          </div>
+
+          <div className="grid gap-px bg-line md:grid-cols-3">
+            {steps.map((step, i) => (
+              <div
+                key={step.title}
+                className="bg-surface px-5 py-5 md:px-6 md:py-6"
+              >
+                <span className="badge badge-accent">Step {i + 1}</span>
+                <h3 className="display mt-3 text-[17px] md:text-[18px]">
+                  {step.title}
+                </h3>
+                <p className="mt-[6px] text-[13px] leading-[1.6] text-text2">
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
